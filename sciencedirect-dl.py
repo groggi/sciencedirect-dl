@@ -21,20 +21,15 @@ import sys
 import tempfile
 import os
 import subprocess
+import argparse
 from BeautifulSoup import BeautifulSoup
 
-def main():
-    url = ""
-    
-    if(len(sys.argv) != 2):
-        print("Please provide an URL")
-        return
-    else:
-        url = sys.argv[1]
-        
-    # get page
+def downloadBook(url, outFilePath):
     userAgent = 'Mozilla/5 (Windows) Gecko'
     headers = {'User-Agent': userAgent}
+    counter = 0
+         
+    # get page
     request = urllib2.Request(url, headers=headers)
     response = urllib2.urlopen(request)
     
@@ -50,7 +45,8 @@ def main():
     # download PDFs
     localPdfFiles = []
     for pdfUrl in pdfUrlList:
-        print("Downloading: %s" % (pdfUrl))
+        print("Downloading PDF %s of %s" % (len(localPdfFiles) + 1,
+            len(pdfUrlList)))
         fileRequest = urllib2.Request(pdfUrl, headers=headers)
         file = urllib2.urlopen(fileRequest)
         localFile = tempfile.NamedTemporaryFile(delete=False)
@@ -59,15 +55,30 @@ def main():
         localFile.close()
     
     # merge PDFs
+    print("Merging downloaded PDF files to: %s" % (outFilePath))
     command = ["pdftk"]
     command.extend(localPdfFiles)
-    command.extend(["cat", "output", "out.pdf"])
+    command.extend(["cat", "output", outFilePath])
     subprocess.Popen(command, shell=False).wait()
     
     # clean up temp files
+    print("Cleaning up temporary files")
     for localFile in localPdfFiles:
         os.remove(localFile)
     
+    print("Done.")
     
 if __name__ == '__main__':
-    main()
+    # argument parser setup
+    argparser = argparse.ArgumentParser(
+        description='Download Script for www.sciencedirect.com')
+    
+    argparser.add_argument('url', action="store",
+        help="URL to the specific Book to download")
+    
+    argparser.add_argument('output', action="store",
+        help="Filepath to save the output to (PDF)")
+    
+    args = argparser.parse_args()
+    
+    downloadBook(args.url, args.output)
