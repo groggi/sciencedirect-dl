@@ -6,7 +6,7 @@ sciencedirect-dl
 - BeautifulSoup (the python lib)
 
 ## How does it work?
-The script tells me this way:
+The script tells me this:
 <pre>
 usage: sciencedirect-dl.py [-h] url output
 
