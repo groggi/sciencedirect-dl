@@ -1,3 +1,11 @@
+.*
+
+# virtualenv
+Include
+Lib
+Scripts
+
+
 *.py[co]
 
 # Packages
