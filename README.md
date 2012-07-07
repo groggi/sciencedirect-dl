@@ -1,5 +1,10 @@
 sciencedirect-dl
 ================
+## What does it? ##
+This script downloads a book / journal from
+www.sciencedirect.com and merges the downloaded
+PDFs to one single PDF.
+
 ## What must be installed? ##
 - python (2.7.3 used while developing)
 - pdftk (binary path must be in PATH (environment variable))
@@ -19,3 +24,7 @@ positional arguments:
 optional arguments:
   -h, --help  show this help message and exit
 </pre>
+
+## What's missing? ##
+I use the Issues feature of GitHub to track stuff I haven't
+done yet, so take a look there.
