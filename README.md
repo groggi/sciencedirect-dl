@@ -1,3 +1,5 @@
+*not maintained right now*
+
 sciencedirect-dl
 ================
 ## What does it? ##
